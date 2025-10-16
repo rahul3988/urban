@@ -3,12 +3,9 @@ import { AuthRequest } from '../middleware/auth';
 import { MockDatabase } from '../database/mockDb';
 import { ApiError } from '../utils/ApiError';
 import { ApiResponse } from '../utils/ApiResponse';
+import { WalletService } from '../services/wallet.service';
 
 const db = MockDatabase.getInstance();
-
-// Mock wallet balances
-const walletBalances = new Map<string, number>();
-const transactions = new Map<string, any[]>();
 
 export const getWallet = async (
   req: AuthRequest,
@@ -17,12 +14,12 @@ export const getWallet = async (
 ) => {
   try {
     const userId = req.user!.id;
-    const balance = walletBalances.get(userId) || 0;
+    const wallet = await WalletService.getOrCreateWallet(userId);
+    const stats = await WalletService.getWalletStats(userId);
 
     ApiResponse.success(res, {
-      balance,
-      currency: 'INR',
-      lastUpdated: new Date()
+      ...wallet,
+      stats
     });
   } catch (error) {
     next(error);
@@ -38,35 +35,9 @@ export const addMoney = async (
     const { amount, method } = req.body;
     const userId = req.user!.id;
 
-    if (amount <= 0) {
-      throw new ApiError(400, 'Invalid amount');
-    }
+    const result = await WalletService.addMoney(userId, amount, method);
 
-    const currentBalance = walletBalances.get(userId) || 0;
-    const newBalance = currentBalance + amount;
-    walletBalances.set(userId, newBalance);
-
-    // Record transaction
-    const transaction = {
-      id: `txn_${Date.now()}`,
-      userId,
-      type: 'CREDIT',
-      amount,
-      method,
-      description: 'Added to wallet',
-      balance: newBalance,
-      status: 'SUCCESS',
-      createdAt: new Date()
-    };
-
-    const userTransactions = transactions.get(userId) || [];
-    userTransactions.push(transaction);
-    transactions.set(userId, userTransactions);
-
-    ApiResponse.success(res, {
-      balance: newBalance,
-      transaction
-    }, 'Money added successfully');
+    ApiResponse.success(res, result, 'Money added successfully');
   } catch (error) {
     next(error);
   }
@@ -78,23 +49,17 @@ export const getTransactionHistory = async (
   next: NextFunction
 ) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 20 } = req.query;
     const userId = req.user!.id;
 
-    const userTransactions = transactions.get(userId) || [];
-    userTransactions.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-    const startIndex = (Number(page) - 1) * Number(limit);
-    const endIndex = startIndex + Number(limit);
-    const paginatedTransactions = userTransactions.slice(startIndex, endIndex);
-
-    ApiResponse.paginated(
-      res,
-      paginatedTransactions,
-      Number(page),
-      Number(limit),
-      userTransactions.length
+    const offset = (Number(page) - 1) * Number(limit);
+    const history = await WalletService.getTransactionHistory(
+      userId, 
+      Number(limit), 
+      offset
     );
+
+    ApiResponse.success(res, history);
   } catch (error) {
     next(error);
   }

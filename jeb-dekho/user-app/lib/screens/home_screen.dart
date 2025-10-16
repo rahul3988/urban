@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../utils/theme.dart';
+import 'transport/booking_screen.dart';
+import 'food/restaurants_screen.dart';
+import 'mart/stores_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -127,7 +130,32 @@ class HomeScreen extends StatelessWidget {
     Color secondaryColor,
   ) {
     return InkWell(
-      onTap: () => context.go('/services'),
+      onTap: () {
+        if (title == 'Transport') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TransportBookingScreen(),
+            ),
+          );
+        } else if (title == 'Food') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const RestaurantsScreen(),
+            ),
+          );
+        } else if (title == 'Mart') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MartStoresScreen(),
+            ),
+          );
+        } else {
+          context.go('/services');
+        }
+      },
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

@@ -9,6 +9,7 @@ import reviewRoutes from './review.routes';
 import notificationRoutes from './notification.routes';
 import adminRoutes from './admin.routes';
 import vendorRoutes from './vendor.routes';
+import promoRoutes from './promo.routes';
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.use('/reviews', reviewRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/admin', adminRoutes);
 router.use('/vendor', vendorRoutes);
+router.use('/promos', promoRoutes);
 
 export default router;
