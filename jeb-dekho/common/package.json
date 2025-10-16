@@ -1,0 +1,15 @@
+{
+  "name": "@jeb-dekho/common",
+  "version": "1.0.0",
+  "description": "Shared libraries, types, and utilities for Jeb Dekho monorepo",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.68",
+    "typescript": "^4.9.5"
+  }
+}
