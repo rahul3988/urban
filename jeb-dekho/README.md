@@ -33,6 +33,77 @@ Each application has its own README with specific setup instructions. Navigate t
 - Secondary: #F97316 (Orange)
 - Accent: #F0FDF4 (Light Green)
 
+## Backend API Integration
+
+The monorepo now includes a complete backend API server with the following features:
+
+### Backend Features
+- 🔐 JWT-based authentication with OTP verification
+- 👥 Multi-role support (Customer, Vendor, Delivery Partner, Admin)  
+- 🚗 Transport booking with fare estimation and tracking
+- 🍕 Food ordering with restaurant browsing and order management
+- 🛒 Mart/grocery shopping with cart functionality
+- 💳 Payment integration (Wallet, Cards, UPI)
+- ⭐ Ratings and reviews system
+- 📱 Real-time notifications
+- 📊 Admin analytics dashboard
+- 🔒 Rate limiting and security middleware
+
+### API Client Library
+
+A TypeScript API client library (`@jeb-dekho/api-client`) is provided for easy integration with all frontend apps.
+
+### Running the Backend
+
+```bash
+cd jeb-dekho/backend
+npm install
+npm run dev
+```
+
+The API server will run on `http://localhost:5000/api/v1`
+
+### Quick Start
+
+1. **Start Backend Server:**
+   ```bash
+   cd backend && npm install && npm run dev
+   ```
+
+2. **Install API Client in Frontend Apps:**
+   ```bash
+   # For React apps
+   cd vendor-panel && npm install ../api-client
+   
+   # For Flutter apps, use the HTTP examples in backend README
+   ```
+
+3. **Use API Client:**
+   ```typescript
+   import { AuthService, FoodService } from '@jeb-dekho/api-client';
+   
+   const auth = new AuthService();
+   await auth.login({ email: 'user@example.com', password: 'password' });
+   ```
+
+### Mock Data
+
+The backend includes pre-seeded mock data with sample users, restaurants, products, and orders. Default credentials are available in the backend README.
+
+## Full Project Structure
+
+```
+jeb-dekho/
+├── user-app/              # Flutter mobile app for users
+├── delivery-partner-app/  # Flutter mobile app for delivery partners
+├── vendor-panel/          # React web app for vendors
+├── admin-panel/           # React web app for administrators
+├── common/                # Shared TypeScript types and utilities
+├── backend/               # Node.js TypeScript API server
+├── api-client/            # TypeScript API client library
+└── PROJECT_SUMMARY.md     # Detailed project documentation
+```
+
 ## License
 
 This project is proprietary and confidential.
