@@ -77,22 +77,22 @@ class ProfileScreen extends StatelessWidget {
                   _buildProfileOption(
                     Icons.person_outline,
                     'Personal Information',
-                    () {},
+                    () => context.go('/profile/personal-info'),
                   ),
                   _buildProfileOption(
                     Icons.location_on_outlined,
                     'Saved Addresses',
-                    () {},
+                    () => context.go('/profile/saved-addresses'),
                   ),
                   _buildProfileOption(
                     Icons.payment_outlined,
                     'Payment Methods',
-                    () {},
+                    () => context.go('/profile/wallet'),
                   ),
                   _buildProfileOption(
                     Icons.history,
                     'Order History',
-                    () {},
+                    () => context.go('/profile/order-history'),
                   ),
                   _buildProfileOption(
                     Icons.notifications_outlined,
@@ -102,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
                   _buildProfileOption(
                     Icons.help_outline,
                     'Help & Support',
-                    () {},
+                    () => context.go('/profile/help-support'),
                   ),
                   _buildProfileOption(
                     Icons.info_outline,

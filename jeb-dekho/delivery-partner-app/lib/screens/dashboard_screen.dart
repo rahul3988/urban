@@ -15,6 +15,10 @@ class DashboardScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications),
             onPressed: () {},
           ),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => context.go('/profile'),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -140,6 +144,7 @@ class DashboardScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           switch (index) {
             case 0:
@@ -150,6 +155,9 @@ class DashboardScreen extends StatelessWidget {
               break;
             case 2:
               context.go('/earnings');
+              break;
+            case 3:
+              context.go('/profile');
               break;
           }
         },
@@ -165,6 +173,10 @@ class DashboardScreen extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_balance_wallet),
             label: 'Earnings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
       ),
